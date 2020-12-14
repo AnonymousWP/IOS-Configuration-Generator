@@ -173,7 +173,6 @@ while True:
                         access = input("Enter the VLAN-id that's allowed on these interfaces: ")
                         s.write("switchport access vlan " + access + "\n!\n")
                     elif switchport == "trunk":
-                        s.write("switchport trunk encapsulation dot1q \n")
                         s.write("switchport mode trunk \n!\n")
                     else:
                         print("Wrong value. Try again.")

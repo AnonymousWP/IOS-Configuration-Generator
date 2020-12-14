@@ -3,9 +3,9 @@
 
  **NOTES:** 
  
- - It may be possible that some commands don't work, as over time with different versions of IOS, commands change. Feel free to make an issue, or create a PR to contribute. I have tested the generated router configuration on a Cisco 1941 router. The generated configuration for the switch was tested on a 
+ - It may be possible that some commands don't work, as over time with different versions of IOS, commands change. Feel free to make an issue, or create a PR to contribute. I have tested the generated router and switch configurations on a Cisco 1941 router and Cisco 2960-24TT switch.
  - The PowerShell script is more limited and harder for me to maintain, so it'll be available in the PowerShell branch.
- - All commands that are outputted are not in the short form, so that for new IOS-users, it's more understandable of what they are configuring.
+ - All commands that are outputted are not in the short form, so that for new IOS-users, it's more understandable of what they are doing and configuring.
  - Make sure you are putting the right interfaces. Don't know which interfaces there are attached? Execute `show ip interface brief` in the Privileged EXEC Mode to see which interfaces are present.
 
 This repository offers two scripts:
@@ -44,7 +44,7 @@ This repository offers two scripts:
 
 ## Sample output
 
-### Configuration for a **router** generated with the Python script:
+### Configuration for a **router**, generated with the Python script:
 
 ```
 enable
@@ -91,17 +91,17 @@ ip route 192.168.3.1 255.255.255.0 192.168.3.2
 do write
 ```
 
-### Configuration for a **switch** generated with the Python script:
+### Configuration for **a layer 2 switch**, generated with the Python script:
 
 ```
 enable
-conf t
+configure terminal
 !
-hostname switch1
+hostname S1
 !
 enable secret cisco
 !
-line con 0
+line console 0
 exec-timeout 0 0
 privilege level 15
 password class
@@ -109,22 +109,65 @@ login
 logging synchronous
 !
 line vty 0 15
-password P@$$w0rd01
+password vtyclass
 login local
 transport input ssh
 !
-vlan 10
+ip domain-name test.com
+vlan 5
 name test
 !
-crypto key generate rsa
-2048
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+!
+interface range gigabitethernet0/1-2
+duplex full 
+switchport trunk encapsulation dot1q 
+switchport mode trunk 
+!
+interface fastethernet0/1
+duplex full 
+switchport mode access 
+switchport access vlan 5
+!
+do write
+```
+
+### Configuration for **a layer 3 switch**, generated with the Python script:
+
+```
+enable
+configure terminal
+!
+hostname S1
+!
+enable secret cisco
+!
+line console 0
+exec-timeout 0 0
+privilege level 15
+password class
+login
+logging synchronous
+!
+line vty 0 15
+password vtyclass
+login local
+transport input ssh
+!
+ip domain-name test.com
+vlan 5
+name test
+!
+crypto key generate rsa general-keys modulus 2048
 ip ssh version 2
 !
 ip routing 
 !
 interface vlan 10
-description test
-ip address 192.168.10.1 255.255.255.0
+description test2
+ip address 192.168.3.1 255.255.255.0
 !
-ip route 192.168.11.1 255.255.255.0 192.168.12.1
+ip route 192.168.1.1 255.255.255.0 192.168.2.1
+do write
 ```
