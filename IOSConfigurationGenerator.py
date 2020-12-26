@@ -1,3 +1,5 @@
+"""Imports the "os" module. Sets variable for `os.getcwd()`"""
+
 import os
 dir_path = os.getcwd()
 

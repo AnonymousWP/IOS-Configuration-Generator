@@ -1,7 +1,7 @@
 # IOS-Configuration-Generator
  A (Python- and PowerShell-based) script that generates commands/configurations for Cisco routers and switches that run IOS. It's meant for IOS users who are too lazy (and don't have experience with Network Automation-related solutions, such as Ansible) to configure everything themselves. By using this script, you can create a template for yourself. All you have to do after you ran the script, is simply copy-paste the output (which is in the .txt file) in IOS.
 
- **NOTES:** 
+**NOTES:**
  
  - It may be possible that some commands don't work, as over time with different versions of IOS, commands change. Feel free to make an issue, or create a PR to contribute. I have tested the generated router and switch configurations on a Cisco 1941 router and Cisco 2960-24TT switch.
  - The PowerShell script is more limited and harder for me to maintain, so it'll be available in the PowerShell branch.
