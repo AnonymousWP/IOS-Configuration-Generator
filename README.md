@@ -3,7 +3,7 @@
 
 **NOTES:**
  
- - It may be possible that some commands don't work, as over time with different versions of IOS, commands change. Feel free to make an issue, or create a PR to contribute. I have tested the generated router and switch configurations on a Cisco 1941 router and Cisco 2960-24TT switch.
+ - It may be possible that some commands don't work, as over time with different versions of IOS, commands change. Feel free to make an issue, or create a PR to contribute. I have tested the generated router and switch configurations on a Cisco 1941 router and Cisco 2960-24TT switch in Cisco Packet Tracer, so that again means that commands on a physical router or switch may differ. Packet Tracer is usually more limited in the amount of supported commands.
  - The PowerShell script is more limited and harder for me to maintain, so it'll be available in the PowerShell branch.
  - All commands that are outputted are not in the short form, so that for new IOS-users, it's more understandable of what they are doing and configuring.
  - Make sure you are putting the right interfaces. Don't know which interfaces there are attached? Execute `show ip interface brief` in the Privileged EXEC Mode to see which interfaces are present.

@@ -17,11 +17,19 @@ while True:
 
     if choice == 'router':
         r = open("router.txt", "w")
+        while True:
+            wantInterface = input("Do you want to configure (another) interface? ").lower()
+            if wantInterface == "yes":
+                interface = input("Enter the desired interface: ").lower()
+                ip = input("Enter the desired IP-address: ").lower()
+                sub = input("Enter the desired subnetmask: ").lower()
+                description = input("Enter the desired description to the interface: ").lower()
+                r.write("interface " + interface + "\n" "description " + description +"\n" "ip address " + ip + " " + sub + "\n")
+            elif wantInterface == "no":
+                break
+            else:
+                continue
 
-        interface = input("Enter the desired interface: ").lower()
-        ip = input("Enter the desired IP-address: ").lower()
-        sub = input("Enter the desired subnetmask: ").lower()
-        description = input("Enter the desired description to the interface: ").lower()
         username = input("Enter the desired username for SSH access: ")
         password = input("Enter the desired password for SSH access: ")
         domain_name = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
