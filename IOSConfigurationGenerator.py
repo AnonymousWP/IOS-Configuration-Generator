@@ -17,7 +17,7 @@ while True:
     choice = input("Do you want to configure a router or switch? ").lower()
 
     if choice == 'router':
-        r = open("router.txt", "w")
+        r = open(f"{hostname}.txt", "w")
         while True:
             wantInterface = input("Do you want to configure (another) interface? ").lower()
             if wantInterface == "yes":
@@ -51,10 +51,10 @@ while True:
             interfaceConfiguration = interfaceConfiguration + "interface " + value["interface"] + "\n" + "ip address " + value["IP"] + " " + value["Subnetmask"] + "\n" + "description " + value["Description"] + "\n" + "no shutdown\n"
         banner = input("Enter the desired banner: ").lower()
         r.write(f"enable\nconfigure terminal\n!\nhostname {hostname}\n!\n"
-                "no ip domain-lookup\n"
+                "no ip domain lookup\n"
                 f"enable secret {secret}\n!\n"
                 f"banner motd # {banner}#\n!\n"
-                f"username {username} privilege 15 password 0 {password} \n!\n {interfaceConfiguration}!\n"
+                f"username {username} privilege 15 password 0 {password}\n!\n{interfaceConfiguration}!\n"
                 "line console 0\n"
                 "exec-timeout 0 0\n"
                 "privilege level 15\n"
@@ -65,7 +65,8 @@ while True:
                 f"password {vty}\n"
                 "login local\n"
                 "transport input ssh\n!\n"
-                f"ip domain-name {domain_name}\n"
+                "exit\n"
+                f"ip domain name {domain_name}\n"
                 "crypto key generate rsa general-keys modulus 2048\n"
                 f"ip ssh version 2\n!\n {encryption1}\n!\n")
         while True:
@@ -239,4 +240,4 @@ while True:
     else:
         print("You didn't choose any of the available options. Try again.\n")
         continue
-print(f"\nConfig file has been made. You can find it back in: {dir_path}")
+print(f"\nConfig file for {hostname} has been made. You can find it back in: {dir_path}")
