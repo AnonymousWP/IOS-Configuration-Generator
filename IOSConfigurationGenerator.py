@@ -10,6 +10,7 @@ hostname = input("Enter the desired hostname: ")
 secret = input("Enter the desired secret password: ")
 console = input("Enter the desired console password: ")
 vty = input("Enter the desired vty password: ")
+interfaceList = []
 
 while True:
 
@@ -24,12 +25,11 @@ while True:
                 ip = input("Enter the desired IP-address: ").lower()
                 sub = input("Enter the desired subnetmask: ").lower()
                 description = input("Enter the desired description to the interface: ").lower()
-                r.write("interface " + interface + "\n" "description " + description +"\n" "ip address " + ip + " " + sub + "\n")
+                interfaceDict = {"interface":interface, "IP":ip, "Subnetmask":sub, "Description":description}
+                interfaceList.append(interfaceDict)
             elif wantInterface == "no":
                 break
-            else:
-                continue
-
+ 
         username = input("Enter the desired username for SSH access: ")
         password = input("Enter the desired password for SSH access: ")
         domain_name = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
@@ -46,31 +46,28 @@ while True:
             else:
                 print("Incorrect input")
                 continue
-
+        interfaceConfiguration = ""
+        for value in interfaceList:
+            interfaceConfiguration = interfaceConfiguration + "interface " + value["interface"] + "\n" + "ip address " + value["IP"] + " " + value["Subnetmask"] + "\n" + "description " + value["Description"] + "\n" + "no shutdown\n"
         banner = input("Enter the desired banner: ").lower()
-
-        r.write("enable\nconfigure terminal\n!\nhostname " + hostname + "\n!\n"
+        r.write(f"enable\nconfigure terminal\n!\nhostname {hostname}\n!\n"
                 "no ip domain-lookup\n"
-                "enable secret " + secret + "\n!\n"
-                "banner motd # " + banner + " #\n!\n"
-                "username " + username + " privilege 15 password 0 " + password + "\n!\n"
-                "interface " + interface + "\n"
-                "description " + description +"\n"
-                "ip address " + ip + " " + sub + "\n"
-                "no shutdown\n!\n"
+                f"enable secret {secret}\n!\n"
+                f"banner motd # {banner}#\n!\n"
+                f"username {username} privilege 15 password 0 {password} \n!\n {interfaceConfiguration}!\n"
                 "line console 0\n"
                 "exec-timeout 0 0\n"
                 "privilege level 15\n"
-                "password " + console + "\n"
+                f"password {console}\n"
                 "login\n"
                 "logging synchronous\n!\n"
                 "line vty 0 15\n"
-                "password " + vty + "\n"
+                f"password {vty}\n"
                 "login local\n"
                 "transport input ssh\n!\n"
-                "ip domain-name " + domain_name + "\n"
+                f"ip domain-name {domain_name}\n"
                 "crypto key generate rsa general-keys modulus 2048\n"
-                "ip ssh version 2\n!\n" + encryption1 + "\n!\n")
+                f"ip ssh version 2\n!\n {encryption1}\n!\n")
         while True:
             routing = input("Do you want to use a routing protocol? The available option is RIP version 2. ").lower()
             if routing == "yes":
@@ -83,7 +80,7 @@ while True:
                     else:
                         routingList.append(str(routingInput))
                 for item in routingList:
-                    r.write("network " + item + "\n")
+                    r.write(f"network {item}\n")
                 break
             elif routing == "no":
                 break
@@ -95,11 +92,9 @@ while True:
                 staticIP = input("Enter the desired IP-address for the static route: ").lower()
                 staticSub = input("Enter the desired subnetmask for the static route: ").lower()
                 nextHop = input("Enter the next-hop address or the interface for the static route: ").lower()
-                r.write("!\nip route " + staticIP + " " + staticSub + " " + nextHop + "\n")
+                r.write(f"!\nip route {staticIP} {staticSub} {nextHop}\n")
             elif static == "no":
                 break
-            else:
-                continue
 
         while True:
             r.write("!\n")
@@ -117,20 +112,20 @@ while True:
 
     elif choice == 'switch':
         s = open("switch.txt", "w")
-        domain_name = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
-        s.write("enable\nconfigure terminal\n!\nhostname " + hostname + "\n!\n"
-                "enable secret " + secret + "\n!\n"
+        domainName = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
+        s.write(f"enable\nconfigure terminal\n!\nhostname {hostname}\n!\n"
+                f"enable secret {secret}\n!\n"
                 "line console 0\n"
                 "exec-timeout 0 0\n"
                 "privilege level 15\n"
-                "password " + console + "\n"
+                f"password {console}\n"
                 "login\n"
                 "logging synchronous\n!\n"
                 "line vty 0 15\n"
-                "password " + vty + "\n"
+                f"password {vty}\n"
                 "login local\n"
                 "transport input ssh\n!\n"
-                "ip domain-name " + domain_name + "\n")
+                f"ip domain-name {domainName}\n")
 
         vlan = []
         name = []
@@ -167,10 +162,10 @@ while True:
                     reach = input("Do you want to enter (another) range? Yes or no? Type 'end' to stop: ").lower()
                     if reach == "yes":
                         interfaces = input("Enter the desired range of interfaces: ").lower()
-                        s.write("interface range " + interfaces + "\nduplex full \n")
+                        s.write(f"interface range {interfaces}\nduplex full \n")
                     elif reach == "no":
                         interface = input("Enter an interface to configure: ").lower()
-                        s.write("interface " + interface + "\nduplex full \n")
+                        s.write(f"interface {interface}\nduplex full \n")
                     elif reach == "end":
                         break
                     else:
@@ -181,7 +176,7 @@ while True:
                     if switchport == "access":
                         s.write("switchport mode access \n")
                         access = input("Enter the VLAN-id that's allowed on these interfaces: ")
-                        s.write("switchport access vlan " + access + "\n!\n")
+                        s.write(f"switchport access vlan {access}\n!\n")
                     elif switchport == "trunk":
                         s.write("switchport mode trunk \n!\n")
                     else:
@@ -206,10 +201,10 @@ while True:
                     else:
                         s.write("interface vlan " + str(vlanID) + "\n")
                         description = input("Enter the desired description of the VLAN: ").lower()
-                        s.write("description " + description + "\n")
+                        s.write(f"description {description}\n")
                         ipAddress = input("Enter the desired IP-address: ")
                         sub = input("Enter the desired subnetmask: ").lower()
-                        s.write("ip address " + ipAddress + " " + sub + "\n!\n")
+                        s.write(f"ip address {ipAddress} {sub}\n!\n")
 
                 while True:
                     static = input("Do you want to add (another) static route? Yes or no? ")
@@ -218,7 +213,7 @@ while True:
                         staticIP = input("Enter an IP-address for the static route: ").lower()
                         staticSub = input("Enter a subnetmask for the static route: ").lower()
                         nextHop = input("Enter a next-hop address or interface for the static route: ").lower()
-                        s.write("ip route " + staticIP + " " + staticSub + " " + nextHop + "\n")
+                        s.write(f"ip route {staticIP} {staticSub} {nextHop} \n")
                     elif static == "no":
                         break
                     else:
@@ -244,4 +239,4 @@ while True:
     else:
         print("You didn't choose any of the available options. Try again.\n")
         continue
-print("\nConfig file has been made. You can find it back in: " + dir_path)
+print(f"\nConfig file has been made. You can find it back in: {dir_path}")
