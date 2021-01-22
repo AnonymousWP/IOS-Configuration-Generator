@@ -68,7 +68,7 @@ while True:
                 "exit\n"
                 f"ip domain name {domainName}\n"
                 "crypto key generate rsa general-keys modulus 2048\n"
-                f"ip ssh version 2\n!\n {encryption1}\n!\n")
+                f"ip ssh version 2\n!\n{encryption1}\n!\n")
         while True:
             routing = input("Do you want to use a routing protocol? The available option is RIP version 2. ").lower()
             if routing == "yes":

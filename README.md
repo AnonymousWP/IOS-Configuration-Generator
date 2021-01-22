@@ -49,31 +49,36 @@ configure terminal
 !
 hostname R1
 !
-no ip domain-lookup
-enable secret cisco
+no ip domain lookup
+enable secret P@$$w0rd01
 !
-banner motd # no access allowed for unauthorised personnel. #
+banner motd # unauthorized access is prohibited.#
 !
-username admin privilege 15 password 0 SSHclass
+username AnonymousWP privilege 15 password 0 P@$$w0rd01
 !
-interface gigabitethernet0/0
-description to r2
+interface gigabitethernet0/1
 ip address 192.168.1.1 255.255.255.0
+description to r2
+no shutdown
+interface gigabitethernet0/2
+ip address 192.168.1.2 255.255.255.0
+description to r1
 no shutdown
 !
 line console 0
 exec-timeout 0 0
 privilege level 15
-password class
+password P@$$w0rd01
 login
 logging synchronous
 !
 line vty 0 15
-password vtyclass
+password P@$$w0rd01
 login local
 transport input ssh
 !
-ip domain-name test.com
+exit
+ip domain name anonymouswp.test
 crypto key generate rsa general-keys modulus 2048
 ip ssh version 2
 !
@@ -81,9 +86,9 @@ service password-encryption
 !
 router rip
 version 2
-network 192.168.2.0
+network 192.168.3.0
 !
-ip route 192.168.3.1 255.255.255.0 192.168.3.2
+ip route 192.168.4.1 255.255.255.0 192.168.1.2
 !
 do write
 ```
