@@ -15,7 +15,7 @@ This repository offers two scripts:
 - Enable
 - Configure terminal
 - Hostname
-- no ip domain-lookup
+- Preventing domain lookups (resulting in having to wait for X amount of seconds)
 - Configuring console lines
 - Configuring VTY lines (for remote control)
 - Password for IOS
@@ -37,14 +37,11 @@ This repository offers two scripts:
 - VLAN IDs
 - Putting VLANs in either trunk or access mode
 - IP-routing
-- Copying the running config to the startup config (with a `do wr`)
-
-
-2. A PowerShell-script that offers basic functionality, but is much more limited than the Python script.
+- Copying the running config to the startup config (with a `do write`)
 
 ## Sample output
 
-### Configuration for a **router**, generated with the Python script:
+### **EXAMPLE** configuration for a **router**, generated with the Python script:
 
 ```
 enable
@@ -171,3 +168,5 @@ ip address 192.168.3.1 255.255.255.0
 ip route 192.168.1.1 255.255.255.0 192.168.2.1
 do write
 ```
+
+2. A PowerShell-script that offers basic functionality, but is much more limited than the Python script.

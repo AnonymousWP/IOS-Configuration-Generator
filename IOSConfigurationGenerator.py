@@ -32,7 +32,7 @@ while True:
  
         username = input("Enter the desired username for SSH access: ")
         password = input("Enter the desired password for SSH access: ")
-        domain_name = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
+        domainName = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
 
         encryption1 = str
         while True:
@@ -66,7 +66,7 @@ while True:
                 "login local\n"
                 "transport input ssh\n!\n"
                 "exit\n"
-                f"ip domain name {domain_name}\n"
+                f"ip domain name {domainName}\n"
                 "crypto key generate rsa general-keys modulus 2048\n"
                 f"ip ssh version 2\n!\n {encryption1}\n!\n")
         while True:
@@ -112,7 +112,7 @@ while True:
         break
 
     elif choice == 'switch':
-        s = open("switch.txt", "w")
+        s = open(f"{hostname}.txt", "w")
         domainName = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
         s.write(f"enable\nconfigure terminal\n!\nhostname {hostname}\n!\n"
                 f"enable secret {secret}\n!\n"
