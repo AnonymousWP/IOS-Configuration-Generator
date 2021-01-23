@@ -7,6 +7,7 @@
  - The PowerShell script is more limited and harder for me to maintain, so it'll be available in the PowerShell branch.
  - All commands that are outputted are not in the short form, so that for new IOS-users, it's more understandable of what they are doing and configuring.
  - Make sure you are putting the right interfaces. Don't know which interfaces there are attached? Execute `show ip interface brief` in the Privileged EXEC Mode to see which interfaces are present.
+ - The generated configurations are not 100% tested (yet). If there are any issues: file an issue in this repository.
 
 This repository offers two scripts:
 

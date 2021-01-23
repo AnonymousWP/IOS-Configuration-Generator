@@ -29,7 +29,7 @@ while True:
                 interfaceList.append(interfaceDict)
             elif wantInterface == "no":
                 break
- 
+
         username = input("Enter the desired username for SSH access: ")
         password = input("Enter the desired password for SSH access: ")
         domainName = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
@@ -70,18 +70,29 @@ while True:
                 "crypto key generate rsa general-keys modulus 2048\n"
                 f"ip ssh version 2\n!\n{encryption1}\n!\n")
         while True:
-            routing = input("Do you want to use a routing protocol? The available option is RIP version 2. ").lower()
+            routing = input("Do you want to use a routing protocol? The available option is OSPF: ").lower()
             if routing == "yes":
                 routingList = []
-                r.write("router rip\nversion 2\n")
                 while True:
-                    routingInput = input("Enter the desired network addresses. Type 'end' to stop: ").lower()
-                    if routingInput == "end":
+                    routingID = input("Enter the desired routerID for OSPF. Type 'end' to stop: ")
+                    if routingID == "end":
                         break
-                    else:
-                        routingList.append(str(routingInput))
-                for item in routingList:
-                    r.write(f"network {item}\n")
+                    routingInstance = {"routerID": routingID, "areas": []}
+                    while True:
+                        areaNumber = input("Enter the desired area number for OSPF. Type 'end' to stop: ")
+                        if areaNumber == "end":
+                            break
+                        routingInput = input("Enter the desired network addresses: ").lower()
+                        routingArea = {"routerArea": areaNumber, "networkAddress": routingInput}
+                        routingInstance ["areas"].append(routingArea)
+                    routingList.append(routingInstance)
+                routingConfiguration = ""
+                for value in routingList:
+                    routingConfiguration = routingConfiguration + "router ospf  " + value["routerID"] + "\n"
+                    for area in value["areas"]:
+                        routingConfiguration = routingConfiguration + "area " + area["routerArea"] + "\n"
+                        routingConfiguration = routingConfiguration + "network " + area["networkAddress"] + "\n"
+                r.write(routingConfiguration)
                 break
             elif routing == "no":
                 break
