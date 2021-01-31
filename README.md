@@ -48,7 +48,7 @@ This repository offers two scripts:
 
 ## Sample output
 
-#### **EXAMPLE** configuration for a **router**, generated with the Python script:
+#### Example configuration for a **router**, generated with the Python script:
 
 ```
 enable
@@ -100,7 +100,7 @@ ip route 192.168.4.1 255.255.255.0 192.168.1.2
 do write
 ```
 
-#### Configuration for **a layer 2 switch**, generated with the Python script:
+#### Example configuration **a layer 2 switch**, generated with the Python script:
 
 ```
 enable
@@ -142,7 +142,7 @@ switchport access vlan 5
 do write
 ```
 
-#### Configuration for **a layer 3 switch**, generated with the Python script:
+#### Example configuration **a layer 3 switch**, generated with the Python script:
 
 ```
 enable
