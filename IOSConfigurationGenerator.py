@@ -1,23 +1,21 @@
-"""Imports the "os" module. Sets variable for `os.getcwd()`"""
+"""Imports the `os` module. Sets variable for `os.getcwd()`"""
 
 import os
 dir_path = os.getcwd()
-
-"""Configuring the basic things"""
 
 print("\n*Basic configuration*\n")
 hostname = input("Enter the desired hostname: ")
 secret = input("Enter the desired secret password: ")
 console = input("Enter the desired console password: ")
 vty = input("Enter the desired vty password: ")
-interfaceList = []
+interfaceList = [] # Empty list which is used later to store the interfaces in.
 
-while True:
+while True: # For a repeated input.
 
     choice = input("Do you want to configure a router or switch? ").lower()
 
     if choice == 'router':
-        r = open(f"{hostname}.txt", "w")
+        r = open(f"{hostname}.txt", "w") # Creates a textfile with the name of the host.
         while True:
             wantInterface = input("Do you want to configure (another) interface? ").lower()
             if wantInterface == "yes":
@@ -25,7 +23,7 @@ while True:
                 ip = input("Enter the desired IP-address: ").lower()
                 sub = input("Enter the desired subnetmask: ").lower()
                 description = input("Enter the desired description to the interface: ").lower()
-                interfaceDict = {"interface":interface, "IP":ip, "Subnetmask":sub, "Description":description}
+                interfaceDict = {"interface":interface, "IP":ip, "Subnetmask":sub, "Description":description} # Creates a dictionary with characteristics of an interface.
                 interfaceList.append(interfaceDict)
             elif wantInterface == "no":
                 break
@@ -34,7 +32,6 @@ while True:
         password = input("Enter the desired password for SSH access: ")
         domainName = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
 
-        encryption1 = str
         while True:
             encryption = input("Do you want to apply encryption? Yes or no? ").lower()
             if encryption == 'yes':
@@ -46,15 +43,18 @@ while True:
             else:
                 print("Incorrect input")
                 continue
-        interfaceConfiguration = ""
+        interfaceConfiguration = "" # Empty string to store the interfaceconfiguration below in.
         for value in interfaceList:
-            interfaceConfiguration = interfaceConfiguration + "interface " + value["interface"] + "\n" + "ip address " + value["IP"] + " " + value["Subnetmask"] + "\n" + "description " + value["Description"] + "\n" + "no shutdown\n"
+            interfaceConfiguration = interfaceConfiguration + "interface " + value["interface"] + "\n" + "ip address " + value["IP"] + " " + value["Subnetmask"] + "\n" + "description " + value["Description"] + "\n" + "no shutdown\n" # To later get the values from the dictionary.
         banner = input("Enter the desired banner: ").lower()
+
+        # Writes the commands (including user input) to the file.
         r.write(f"enable\nconfigure terminal\n!\nhostname {hostname}\n!\n"
                 "no ip domain lookup\n"
                 f"enable secret {secret}\n!\n"
                 f"banner motd # {banner}#\n!\n"
                 f"username {username} privilege 15 password 0 {password}\n!\n{interfaceConfiguration}!\n"
+                f"ip domain name {domainName}\n"
                 "line console 0\n"
                 "exec-timeout 0 0\n"
                 "privilege level 15\n"
@@ -66,34 +66,35 @@ while True:
                 "login local\n"
                 "transport input ssh\n!\n"
                 "exit\n"
-                f"ip domain name {domainName}\n"
                 "crypto key generate rsa general-keys modulus 2048\n"
                 f"ip ssh version 2\n!\n{encryption1}\n!\n")
-        while True:
+
+        while True: # For a repeated input.
             routing = input("Do you want to use a routing protocol? The available option is OSPF: ").lower()
             if routing == "yes":
-                routingList = []
+                routingList = [] # Empty list which is used later to store the routing entries in.
                 while True:
                     routingID = input("Enter the desired routerID for OSPF. Type 'end' to stop: ")
                     if routingID == "end":
                         break
-                    routingInstance = {"routerID": routingID, "areas": []}
+                    routingInstance = {"routerID": routingID, "areas": []} # Dictionary of routing ID and areas.
                     while True:
                         areaNumber = input("Enter the desired area number for OSPF. Type 'end' to stop: ")
                         if areaNumber == "end":
                             break
                         routingInput = input("Enter the desired network addresses: ").lower()
-                        routingArea = {"routerArea": areaNumber, "networkAddress": routingInput}
-                        routingInstance ["areas"].append(routingArea)
-                    routingList.append(routingInstance)
+                        routingArea = {"routerArea": areaNumber, "networkAddress": routingInput} # Dictionary of area numbers and network addresses.
+                        routingInstance ["areas"].append(routingArea) # Stores the areas in the dictionary.
+                    routingList.append(routingInstance) # Stores the routing values (dictionary) in a list.
                 routingConfiguration = ""
+                # Does a for-loop in the routinglist, where the dictionary is in, to obtain the values.
                 for value in routingList:
                     routingConfiguration = routingConfiguration + "router ospf  " + value["routerID"] + "\n"
                     for area in value["areas"]:
                         routingConfiguration = routingConfiguration + "area " + area["routerArea"] + "\n"
                         routingConfiguration = routingConfiguration + "network " + area["networkAddress"] + "\n"
                 r.write(routingConfiguration)
-                break
+                break # Explicitly breaks out of the While-loop so that it continues with the rest of the script.
             elif routing == "no":
                 break
             else:
@@ -120,11 +121,13 @@ while True:
             else:
                 print("You didn't choose a(n) (correct) option. Please try again.")
         r.close()
-        break
+        break # Explicit break so that the input "Do you want to configure a router or switch? " is not being returned again.
 
     elif choice == 'switch':
-        s = open(f"{hostname}.txt", "w")
+        s = open(f"{hostname}.txt", "w") # Creates a textfile with the name of the host.
         domainName = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
+
+        # Writes the commands (including user input) to the file.
         s.write(f"enable\nconfigure terminal\n!\nhostname {hostname}\n!\n"
                 f"enable secret {secret}\n!\n"
                 "line console 0\n"
@@ -139,8 +142,8 @@ while True:
                 "transport input ssh\n!\n"
                 f"ip domain-name {domainName}\n")
 
-        vlan = []
-        name = []
+        vlan = [] # VLAN ID will be stored in this empty list.
+        name = [] # VLAN name will be stored in this empty list.
         while True:
 
             try:
@@ -155,9 +158,10 @@ while True:
                 break
             else:
                 nameInput = input("Enter the desired name of the vlan: ").lower()
-                vlan.append(vlanInput)
-                name.append(nameInput)
+                vlan.append(vlanInput) # Stores the vlanInput in the empty list.
+                name.append(nameInput) # Stores the nameInput in the empty list.
 
+        """Aggregates `vlan` and `name` in a tuple and writes the values in the text file."""
         zipped = zip(vlan, name)
         lists = list(zipped)
         for i in lists:
@@ -195,7 +199,7 @@ while True:
                         print("Wrong value. Try again.")
                         s.write("!\n")
                         continue
-                break
+                break # Explicit break so that the input "What kind of switch do you want to configure?" is not being returned again.
 
             elif layer == '3':
                 s.write("ip routing \n!\n")
@@ -231,7 +235,7 @@ while True:
                     else:
                         print("You didn't choose any of the available options. Try again.")
                         continue
-                break
+                break # Explicit break so that the input "What kind of switch do you want to configure?" is not being returned again.
             else:
                 print("You didn't choose any of the available options. Try again.")
                 continue
@@ -246,7 +250,7 @@ while True:
             else:
                 print("You didn't choose a(n) (correct) option. Please try again.\n")
         s.close()
-        break
+        break # Explicit break so that the input "What kind of switch do you want to configure?" is not being returned again.
 
     else:
         print("You didn't choose any of the available options. Try again.\n")
