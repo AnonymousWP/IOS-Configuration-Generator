@@ -1,13 +1,19 @@
 # IOS-Configuration-Generator
- A (Python- and PowerShell-based) script that generates commands/configurations for Cisco routers and switches that run IOS. It's meant for IOS users who are too lazy (and don't have experience with Network Automation-related solutions, such as Ansible) to configure everything themselves. By using this script, you can create a template for yourself. All you have to do after you ran the script, is simply copy-paste the output (which is in the .txt file) in IOS.
+ A (Python- and PowerShell-based) script that generates commands/configurations for Cisco routers and switches that run IOS. It's meant for IOS users who are too lazy (and/or don't have experience with Network Automation-related solutions, such as Ansible) to configure everything themselves. By using this script, you can create a template for yourself. All you have to do after you ran the script, is simply copy-paste the output (which is in the .txt file) in IOS.
 
-**NOTES:**
+## Notes
  
  - It may be possible that some commands don't work, as over time with different versions of IOS, commands change. Feel free to make an issue, or create a PR to contribute. I have tested the generated router and switch configurations on a Cisco 1941 router and Cisco 2960-24TT switch in Cisco Packet Tracer, so that again means that commands on a physical router or switch may differ. Packet Tracer is usually more limited in the amount of supported commands.
  - The PowerShell script is more limited and harder for me to maintain, so it'll be available in the PowerShell branch.
  - All commands that are outputted are not in the short form, so that for new IOS-users, it's more understandable of what they are doing and configuring.
  - Make sure you are putting the right interfaces. Don't know which interfaces there are attached? Execute `show ip interface brief` in the Privileged EXEC Mode to see which interfaces are present.
  - The generated configurations are not 100% tested (yet). If there are any issues: file an issue in this repository.
+ - Mind that I'm not a developer, but I do this as a hobby. When I made this script, it was not focused on making the script looking as clean/efficient as possible.
+ - This project is still WIP (Work-In-Progress), so do remember that it may lack some functions. Feel free to create a Pull Request or issue.
+
+## To be added:
+
+ - [ ] Add possibility to configure multiple interfaces
 
 This repository offers two scripts:
 
@@ -16,13 +22,13 @@ This repository offers two scripts:
 - Enable
 - Configure terminal
 - Hostname
-- Preventing domain lookups (resulting in having to wait for X amount of seconds)
+- No domain lookup (preventing domain lookups, resulting in having to wait for X amount of seconds before you can continue configuring)
 - Configuring console lines
 - Configuring VTY lines (for remote control)
 - Password for IOS
 - Password for console line
 - Password for the vty line
-- Whether you want to configure a switch or router
+- Whether you want to configure a switch (both layer 2 and layer 3 are supported) or router
 - (Ranges of) interfaces (automatically does a `no shutdown` after setting an IP-address as well)
 - IP-addresses
 - Subnetmasks
@@ -33,7 +39,7 @@ This repository offers two scripts:
 - SSH and generating 2048-bit RSA keys
 - Password encryption
 - Banner MOTD (Message Of The Day)
-- Routing (RIP version 2, as of now. OSPF may be added later)
+- Routing (OSPF)
 - Static routes
 - VLAN IDs
 - Putting VLANs in either trunk or access mode
@@ -42,7 +48,7 @@ This repository offers two scripts:
 
 ## Sample output
 
-### **EXAMPLE** configuration for a **router**, generated with the Python script:
+#### **EXAMPLE** configuration for a **router**, generated with the Python script:
 
 ```
 enable
@@ -94,7 +100,7 @@ ip route 192.168.4.1 255.255.255.0 192.168.1.2
 do write
 ```
 
-### Configuration for **a layer 2 switch**, generated with the Python script:
+#### Configuration for **a layer 2 switch**, generated with the Python script:
 
 ```
 enable
@@ -136,7 +142,7 @@ switchport access vlan 5
 do write
 ```
 
-### Configuration for **a layer 3 switch**, generated with the Python script:
+#### Configuration for **a layer 3 switch**, generated with the Python script:
 
 ```
 enable
@@ -176,3 +182,4 @@ do write
 ```
 
 2. A PowerShell-script that offers basic functionality, but is much more limited than the Python script.
+
