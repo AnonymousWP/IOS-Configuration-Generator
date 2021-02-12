@@ -1,4 +1,5 @@
 # IOS-Configuration-Generator
+
  A (Python- and PowerShell-based) script that generates commands/configurations for Cisco routers and switches that run IOS. It's meant for IOS users who are too lazy (and/or don't have experience with Network Automation-related solutions, such as Ansible) to configure everything themselves. By using this script, you can create a template for yourself. All you have to do after you ran the script, is simply copy-paste the output (which is in the .txt file) in IOS.
 
 ## Notes
@@ -13,7 +14,7 @@
 
 ## To be added:
 
- - [ ] Add possibility to configure multiple interfaces
+ - [ ] Add possibility to configure multiple OSPF IDs, areas and network addresses
 
 This repository offers two scripts:
 
