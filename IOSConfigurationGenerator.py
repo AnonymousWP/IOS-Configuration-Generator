@@ -91,8 +91,8 @@ while True: # For a repeated input.
                 for value in routingList:
                     routingConfiguration = routingConfiguration + "router ospf  " + value["routerID"] + "\n"
                     for area in value["areas"]:
-                        routingConfiguration = routingConfiguration + "area " + area["routerArea"] + "\n"
-                        routingConfiguration = routingConfiguration + "network " + area["networkAddress"] + "\n"
+                        routingConfiguration = routingConfiguration + "network " + area["networkAddress"]
+                        routingConfiguration = routingConfiguration + " area " + area["routerArea"] + "\n"
                 r.write(routingConfiguration)
                 break # Explicitly breaks out of the While-loop so that it continues with the rest of the script.
             elif routing == "no":
