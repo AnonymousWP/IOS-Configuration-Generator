@@ -5,9 +5,9 @@ dir_path = os.getcwd()
 
 print("\n*Basic configuration*\n")
 hostname = input("Enter the desired hostname: ")
-secret = input("Enter the desired secret password: ")
-console = input("Enter the desired console password: ")
-vty = input("Enter the desired vty password: ")
+secret = input("Enter the desired secret password: ") # It is strongly advised that you use a strong password.
+console = input("Enter the desired console password: ") # It is strongly advised that you use a strong password.
+vty = input("Enter the desired vty password: ") # It is strongly advised that you use a strong password.
 interfaceList = [] # Empty list which is used later to store the interfaces in.
 
 while True: # For a repeated input.
@@ -29,7 +29,7 @@ while True: # For a repeated input.
                 break
 
         username = input("Enter the desired username for SSH access: ")
-        password = input("Enter the desired password for SSH access: ")
+        password = input("Enter the desired password for SSH access: ") # It is strongly advised that you use a strong password.
         domainName = input("Enter the desired domain name. This is necessary to setup SSH keys: ").lower()
 
         while True:
@@ -46,7 +46,7 @@ while True: # For a repeated input.
         interfaceConfiguration = "" # Empty string to store the interfaceconfiguration below in.
         for value in interfaceList:
             interfaceConfiguration = interfaceConfiguration + "interface " + value["interface"] + "\n" + "ip address " + value["IP"] + " " + value["Subnetmask"] + "\n" + "description " + value["Description"] + "\n" + "no shutdown\n" # To later get the values from the dictionary.
-        banner = input("Enter the desired banner: ").lower()
+        banner = input("Enter the desired banner: ")
 
         # Writes the commands (including user input) to the file.
         r.write(f"enable\nconfigure terminal\n!\nhostname {hostname}\n!\n"
