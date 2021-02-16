@@ -9,7 +9,7 @@
  - All commands that are outputted are not in the short form, so that for new IOS-users, it's more understandable of what they are doing and configuring.
  - Make sure you are putting the right interfaces. Don't know which interfaces there are attached? Execute `show ip interface brief` in the Privileged EXEC Mode to see which interfaces are present.
  - The generated configurations are not 100% tested (yet). If there are any issues: file an issue in this repository.
- - Mind that I'm not a developer, but I do this as a hobby. When I made this script, it was not focused on making the script looking as clean/efficient as possible.
+ - Mind that I'm not a developer, but I do this as a hobby. When I made this script, it was not focused on making the script looking as clean/efficient as possible. If you feel like improving it, feel free to create a Pull Request.
  - This project is still WIP (Work-In-Progress), so do remember that it may lack some functions. Feel free to create a Pull Request or issue.
 
 ## To be added:
