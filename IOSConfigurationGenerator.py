@@ -5,9 +5,12 @@ dir_path = os.getcwd()
 
 print("\n*Basic configuration*\n")
 hostname = input("Enter the desired hostname: ")
-secret = input("Enter the desired secret password: ") # It is strongly advised that you use a strong password.
-console = input("Enter the desired console password: ") # It is strongly advised that you use a strong password.
-vty = input("Enter the desired vty password: ") # It is strongly advised that you use a strong password.
+
+# It is strongly advised that you use a strong password.
+secret = input("Enter the desired secret password: ")
+console = input("Enter the desired console password: ")
+vty = input("Enter the desired vty password: ")
+
 interfaceList = [] # Empty list which is used later to store the interfaces in.
 
 while True: # For a repeated input.
