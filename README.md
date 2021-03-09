@@ -14,7 +14,7 @@
 
 ## To be added:
 
- - [ ] Add possibility to configure multiple OSPF IDs, areas and network addresses
+ - [x] Add possibility to configure multiple OSPF IDs, areas and network addresses
 
 This repository offers two scripts:
 
@@ -58,45 +58,44 @@ configure terminal
 hostname R1
 !
 no ip domain lookup
-enable secret P@$$w0rd01
+enable secret class
 !
-banner motd # unauthorized access is prohibited.#
+banner motd # Unauthorized access is prohibited.#
 !
-username AnonymousWP privilege 15 password 0 P@$$w0rd01
+username admin privilege 15 password 0 sshclass
 !
-interface gigabitethernet0/1
+interface gigabitethernet0/0
 ip address 192.168.1.1 255.255.255.0
 description to r2
 no shutdown
-interface gigabitethernet0/2
-ip address 192.168.1.2 255.255.255.0
-description to r1
+interface gigabitethernet0/1
+ip address 192.168.2.1 255.255.255.0
+description to s1
 no shutdown
 !
+ip domain name test.test
 line console 0
 exec-timeout 0 0
 privilege level 15
-password P@$$w0rd01
+password consoleclass
 login
 logging synchronous
 !
 line vty 0 15
-password P@$$w0rd01
+password vtyclass
 login local
 transport input ssh
 !
 exit
-ip domain name anonymouswp.test
 crypto key generate rsa general-keys modulus 2048
 ip ssh version 2
 !
 service password-encryption
 !
-router rip
-version 2
-network 192.168.3.0
+router ospf  1
+network 192.168.3.0 0.0.0.255 area 0
 !
-ip route 192.168.4.1 255.255.255.0 192.168.1.2
+ip route 192.168.4.0 255.255.255.0 192.168.3.2
 !
 do write
 ```
