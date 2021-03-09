@@ -20,7 +20,7 @@ while True: # For a repeated input.
     if choice == 'router':
         r = open(f"{hostname}.txt", "w") # Creates a textfile with the name of the host.
         while True:
-            wantInterface = input("Do you want to configure (another) interface? ").lower()
+            wantInterface = input("Do you want to configure an interface? ").lower()
             if wantInterface == "yes":
                 interface = input("Enter the desired interface: ").lower()
                 ip = input("Enter the desired IP-address: ").lower()
