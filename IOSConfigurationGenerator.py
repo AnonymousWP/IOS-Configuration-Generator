@@ -83,7 +83,8 @@ while True: # For a repeated input.
                         if areaNumber == "end":
                             break
                         routingInput = input("Enter the desired network addresses: ").lower()
-                        routingArea = {"routerArea": areaNumber, "networkAddress": routingInput} # Dictionary of area numbers and network addresses.
+                        wildCardMask = input("Enter the corresponding wildcardmask: ")
+                        routingArea = {"routerArea": areaNumber, "networkAddress": routingInput, "wildcardMask": wildCardMask} # Dictionary of area numbers and network addresses.
                         routingInstance ["areas"].append(routingArea) # Stores the areas in the dictionary.
                     routingList.append(routingInstance) # Stores the routing values (dictionary) in a list.
                 routingConfiguration = ""
@@ -91,7 +92,7 @@ while True: # For a repeated input.
                 for value in routingList:
                     routingConfiguration = routingConfiguration + "router ospf  " + value["routerID"] + "\n"
                     for area in value["areas"]:
-                        routingConfiguration = routingConfiguration + "network " + area["networkAddress"]
+                        routingConfiguration = routingConfiguration + "network " + area["networkAddress"] + " " + area["wildcardMask"]
                         routingConfiguration = routingConfiguration + " area " + area["routerArea"] + "\n"
                 r.write(routingConfiguration)
                 break # Explicitly breaks out of the While-loop so that it continues with the rest of the script.
