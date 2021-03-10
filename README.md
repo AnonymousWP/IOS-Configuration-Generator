@@ -184,3 +184,46 @@ do write
 
 2. A PowerShell-script that offers basic functionality, but is much more limited than the Python script.
 
+```
+enable 
+!
+conf t 
+!
+hostname R1 
+!
+enable secret class
+!
+banner motd # Unauthorized access is prohibited. # 
+!
+no ip domain-lookup
+!
+username Test-admin privilege 15 password 0 cisco
+!
+interface GigabitEthernet0/1 
+description To S1 
+ip address 192.168.1.1 255.255.255.0 
+no shutdown
+!
+line con 0 
+exec-timeout 0 0 
+privilege level 15 
+password consoleclass 
+login 
+logging synchronuos
+!
+line vty 0 15 
+password vtyclass 
+login local 
+transport input ssh 
+!
+crypto key generate rsa 2048 
+ip ssh version 2 
+!
+service password-encryption 
+!
+router rip 
+version 2
+network 192.168.1.0
+!
+ip route 192.168.3.0 255.255.255.0 192.168.2.1
+```
