@@ -53,24 +53,12 @@ switch($Choice)
         { 
         $Static = Read-Host -Prompt "Do you want to set (another) static route, yes or no?"
             If ($Static -eq "yes")
-                { $StaticIP = Read-Host -Prompt "Geef een IP-adres voor de static route op: "
-                  $StaticSub = Read-Host -Prompt "Geef een subnetmasker op voor de static route: "
-                  $NextHop = Read-Host -Prompt "Geef een next-hop adres of interface op voor de static route: " 
+                { $StaticIP = Read-Host -Prompt "Enter the IP-address for the static route"
+                  $StaticSub = Read-Host -Prompt "Enter the subnetmask for the static route"
+                  $NextHop = Read-Host -Prompt "Enter the next-hop address or interface for the static route" 
                  Add-Content .\routerps1.txt "!`nip route $StaticIP $StaticSub $NextHop"}
             If ($Static -eq "no")
                 { break } 
          }
-       } 
-
-    1 { $Switch = "Choose the layer number of the switch?"
-        $Prompt4 = "Enter your choice"
-        $Choices4 = [System.Management.Automation.Host.ChoiceDescription[]] @("&2", "&3")
-        $Default4 = 1
-        $Choice4 = $host.UI.PromptForChoice($Switch, $Prompt4, $Choices4, $Default4)
-        switch($Choice2)
-        {
-            0 { Write-Host "L2 - Write your code"}
-            1 { Write-Host "L3 - Write your code"}
-        }}
-    2 { Write-Host "Cancel"}
-}
+       }
+    }
