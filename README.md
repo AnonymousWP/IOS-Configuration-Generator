@@ -108,12 +108,12 @@ configure terminal
 !
 hostname S1
 !
-enable secret cisco
+enable secret class
 !
 line console 0
 exec-timeout 0 0
 privilege level 15
-password class
+password consoleclass
 login
 logging synchronous
 !
@@ -122,22 +122,23 @@ password vtyclass
 login local
 transport input ssh
 !
-ip domain-name test.com
-vlan 5
+ip domain-name test.test
+vlan 10
 name test
 !
 crypto key generate rsa general-keys modulus 2048
 ip ssh version 2
 !
-interface range gigabitethernet0/1-2
-duplex full 
-switchport trunk encapsulation dot1q 
-switchport mode trunk 
+interface range gigabitethernet 0/1 - 2
+duplex full
+switchport mode trunk
+no shutdown
 !
-interface fastethernet0/1
+interface range fastethernet0/1 - 3
 duplex full 
 switchport mode access 
-switchport access vlan 5
+switchport access vlan 10
+no shutdown
 !
 do write
 ```
