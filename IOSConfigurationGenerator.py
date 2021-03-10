@@ -182,10 +182,10 @@ while True: # For a repeated input.
                     reach = input("Do you want to enter (another) range? Yes or no? Type 'end' to stop: ").lower()
                     if reach == "yes":
                         interfaces = input("Enter the desired range of interfaces: ").lower()
-                        s.write(f"interface range {interfaces}\nduplex full \n")
+                        s.write(f"interface range {interfaces}\nduplex full\nno shutdown\n")
                     elif reach == "no":
                         interface = input("Enter an interface to configure: ").lower()
-                        s.write(f"interface {interface}\nduplex full \n")
+                        s.write(f"interface {interface}\nduplex full\nno shutdown\n")
                     elif reach == "end":
                         break
                     else:
@@ -194,11 +194,11 @@ while True: # For a repeated input.
 
                     switchport = input("Do you want to set the switchport in trunk or access mode? ").lower()
                     if switchport == "access":
-                        s.write("switchport mode access \n")
+                        s.write("switchport mode access\n")
                         access = input("Enter the VLAN-id that's allowed on these interfaces: ")
                         s.write(f"switchport access vlan {access}\n!\n")
                     elif switchport == "trunk":
-                        s.write("switchport mode trunk \n!\n")
+                        s.write("switchport mode trunk\n!\n")
                     else:
                         print("Wrong value. Try again.")
                         s.write("!\n")
