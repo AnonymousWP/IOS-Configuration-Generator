@@ -15,6 +15,7 @@
 ## To be added:
 
  - [x] Add possibility to configure multiple OSPF IDs, areas and network addresses
+ - [ ] Replace existing code by existing libraries, that should make it easier to implement certain functions
 
 This repository offers two scripts:
 
