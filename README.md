@@ -185,6 +185,8 @@ do write
 
 2. A PowerShell-script that offers basic functionality, but is much more limited than the Python script.
 
+#### Example configuration for a **router**, generated with the PowerShell script:
+
 ```
 enable 
 !
